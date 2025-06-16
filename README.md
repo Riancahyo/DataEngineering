@@ -1,37 +1,40 @@
-# DATA-ENGINEERING  
-# Prediksi Jumlah Kecelakaan Lalu Lintas Berdasarkan Kondisi Jalan, Curah Hujan, dan Jumlah Kendaraan Menggunakan Regresi
+# DATA-ENGINEERING
+# Analisis Dampak Kondisi Jalan, Curah Hujan, dan Kepadatan Kendaraan terhadap Kecelakaan Lalu Lintas di Jawa Tengah
 
 ## Deskripsi Proyek
-Proyek ini bertujuan untuk membangun pipeline ETL (Extract, Transform, Load) untuk menganalisis keterkaitan antara curah hujan, kondisi jalan, dan jumlah kendaraan bermotor terhadap jumlah kecelakaan lalu lintas di Provinsi Jawa Tengah. Data dikumpulkan dari berbagai sumber terpercaya, dibersihkan, diintegrasikan, dan dipersiapkan untuk analisis lebih lanjut serta pelatihan model machine learning berbasis regresi. Hasil akhir proyek berupa dataset terintegrasi yang digunakan untuk memprediksi jumlah kecelakaan lalu lintas di tiap Kabupaten/Kota.
+Proyek ini dirancang untuk membangun pipeline ETL (Extract, Transform, Load) yang menyatukan data curah hujan, kondisi jalan, dan jumlah kendaraan bermotor untuk mendukung **analisis dampak ketiga faktor tersebut terhadap jumlah kecelakaan lalu lintas di Provinsi Jawa Tengah**. Dengan pipeline ini, seluruh data dari berbagai sumber diproses, dibersihkan, dan digabungkan menjadi satu dataset utama agar dapat dianalisis secara menyeluruh.
 
-## Manfaat Data / Use Case
-- **Tujuan Proyek:** Menyediakan dataset terintegrasi untuk membangun model prediktif jumlah kecelakaan lalu lintas.
+Proses tidak hanya berhenti pada pengolahan data, tetapi juga dilanjutkan dengan penerapan **analisis korelasi** untuk mengetahui seberapa besar pengaruh masing-masing variabel terhadap kecelakaan. Untuk memperkaya analisis, dataset juga digunakan dalam penerapan model machine learning berbasis regresi. Hasil dari proyek ini diharapkan dapat menjadi dasar pengambilan keputusan berbasis data oleh pemerintah atau pihak terkait dalam merumuskan strategi pencegahan kecelakaan lalu lintas.
+
+## 🎯 Manfaat Data / Use Case
+- **Tujuan Proyek:** Menyediakan dataset terintegrasi untuk menganalisis dampak curah hujan, kondisi jalan, dan jumlah kendaraan terhadap kecelakaan lalu lintas.
 - **Manfaat:**
-  - Menunjukkan hubungan antara curah hujan, kondisi jalan, jumlah kendaraan, dan jumlah kecelakaan.
-  - Menjadi dasar untuk model prediksi jumlah kecelakaan per Kabupaten/Kota.
-  - Memberikan rekomendasi berbasis data untuk pemerintah dan instansi terkait.
+  - Memberikan gambaran mengenai hubungan antar variabel penyebab kecelakaan lalu lintas.
+  - Menjadi dasar bagi pemerintah dan lembaga terkait untuk menyusun strategi mitigasi kecelakaan berbasis data.
+  - Menghasilkan insight yang dapat dimanfaatkan untuk perencanaan jangka panjang terkait keselamatan berlalu lintas.
 
 ## Serving Analisis
-Data hasil ETL disimpan dalam PostgreSQL dan digunakan untuk analisis eksploratif serta visualisasi interaktif menggunakan Looker Studio dan Plotly.
+Seluruh data hasil ETL disimpan dalam PostgreSQL, kemudian digunakan untuk **analisis korelasi antar variabel** dengan visualisasi interaktif menggunakan Looker Studio dan Plotly.
 
-## Serving Machine Learning
-Dataset bersih dan terstandarisasi digunakan untuk melatih model machine learning berbasis regresi. Model terbaik dipilih menggunakan PyCaret, dan **Random Forest Regressor** terpilih sebagai model dengan performa terbaik.
+## Machine Learning (Pendukung)
+Dataset juga digunakan untuk melatih model machine learning berbasis regresi guna mendukung hasil analisis korelasi. Berdasarkan evaluasi model, **Random Forest Regressor** terpilih sebagai model terbaik untuk prediksi jumlah kecelakaan berdasarkan variabel-variabel yang telah dianalisis.
 
 ## Pipeline
+
 ### Extract (Pengambilan Data)
 **Sumber Data:**
-- Jumlah Kecelakaan - BPS Jawa Tengah
-  https://jateng.bps.go.id/id/statistics-table/2/NTYzIzI=/jumlah-korban-kecelakaan-lalu-lintas-di-wilayah-polda-jawa-tengah-tahun.html 
-- Jumlah Kendaraan - BPS Jawa Tengah
+- Jumlah Kecelakaan - BPS Jawa Tengah  
+  https://jateng.bps.go.id/id/statistics-table/2/NTYzIzI=/jumlah-korban-kecelakaan-lalu-lintas-di-wilayah-polda-jawa-tengah-tahun.html
+- Jumlah Kendaraan - BPS Jawa Tengah  
   https://jateng.bps.go.id/id/statistics-table/2/MTAwNiMy/jumlah-kendaraan-bermotor-menurut-kabupaten-kota-dan-jenis-kendaraan-di-provinsi-jawa-tengah
-- Kondisi Jalan - BPS Jawa Tengah
+- Kondisi Jalan - BPS Jawa Tengah  
   https://jateng.bps.go.id/id/statistics-table/1/MjQ1NSMx/panjang-jalan-menurut-kabupaten-kota-dan-kondisi-jalan--di-provinsi-jawa-tengah--km---2020.html
-- Curah Hujan - Google Earth Engine (CHIRPS)
+- Curah Hujan - Google Earth Engine (CHIRPS)  
   https://code.earthengine.google.com/?project=silken-facet-436013-f9
 
 **Metode Pengambilan:**
 - Scraping HTML dengan Selenium untuk data BPS
-- API Google Earth Engine untuk curah hujan
+- API Google Earth Engine untuk data curah hujan
 - Penyimpanan awal dalam format CSV atau langsung ke PostgreSQL
 
 ### Transform (Pembersihan & Transformasi)
@@ -50,23 +53,23 @@ Dataset bersih dan terstandarisasi digunakan untuk melatih model machine learnin
 
 ## Kode Program
 - **Struktur:**
-  - Kode ETL dan Machine Learning dipisahkan
+  - Kode ETL dan Analisis dipisahkan
   - Variabel deskriptif
-- **Machine Learning:**
+- **Machine Learning (Pendukung):**
   - PyCaret `setup()`, `compare_models()` → Random Forest Regressor
-  - Visualisasi prediksi vs aktual
+  - Visualisasi korelasi dan scatter plot untuk mendukung analisis
 
 ## Link Proyek
-- ETL Pipeline:
-  https://colab.research.google.com/drive/1joB553qDmrkY4ns0zV89T6dznoOPzj5u?usp=sharing 
-- Machine Learning:
+- ETL Pipeline:  
+  https://colab.research.google.com/drive/1joB553qDmrkY4ns0zV89T6dznoOPzj5u?usp=sharing
+- Machine Learning:  
   https://colab.research.google.com/drive/1c0yRAkOIxntQeLclG-2yiBmG9oWw4Th-?usp=sharing
 
 ## Kontributor
 
-| Nama Lengkap                       | NIM         | Peran                |
-|------------------------------------|-------------|----------------------|
-| RIAN CAHYO ANGGORO                 | 234311052   | Data Engineer        |
-| AFIF DZAKI ZAIN                    | 234311029   | Data Analyst         |
-| ICON PRIAGAMIS                     | 234311042   | Data Analyst         |
-| RAHMAD RISKIAWAN H                 | 234311048   | Project Manager      |
+| Nama Lengkap             | NIM         | Peran           |
+|--------------------------|-------------|-----------------|
+| RIAN CAHYO ANGGORO       | 234311052   | Data Engineer   |
+| AFIF DZAKI ZAIN          | 234311029   | Data Analyst    |
+| ICON PRIAGAMIS           | 234311042   | Data Analyst    |
+| RAHMAD RISKIAWAN H       | 234311048   | Project Manager |
